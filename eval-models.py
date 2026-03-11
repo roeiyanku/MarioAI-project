@@ -36,7 +36,7 @@ for m in range(21_000, model_ep_cnt + 1, CKPT_SAVE_INTERVAL):
     model_rewards = []
     max = 0
 
-    env = gym_super_mario_bros.make(ENV_NAME, render_mode='human' if DISPLAY else 'rgb', apply_api_compatibility=True)
+    env = gym_super_mario_bros.make(ENV_NAME, render_mode='human' if DISPLAY else 'rgb_array', apply_api_compatibility=True)
     env = JoypadSpace(env, RIGHT_ONLY)
 
     env = apply_wrappers(env)

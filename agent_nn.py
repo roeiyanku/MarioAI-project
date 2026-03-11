@@ -3,7 +3,7 @@ from torch import nn
 import numpy as np
 
 class AgentNN(nn.Module):
-    def __init__(self, input_shape, n_actions, freeze=False):
+    def __init__(self, input_shape, n_actions, freeze=False, device='cpu'):
         super().__init__()
         # Conolutional layers
         self.conv_layers = nn.Sequential(
@@ -29,8 +29,7 @@ class AgentNN(nn.Module):
         if freeze:
             self._freeze()
         
-        self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
-        self.to(self.device)
+        self.to(device)
 
     def forward(self, x):
         return self.network(x)

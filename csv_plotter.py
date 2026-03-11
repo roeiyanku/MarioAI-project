@@ -35,7 +35,7 @@ with open(CSV_FILE_NAME, 'w') as csvfile:
     csvwriter = csv.DictWriter(csvfile, fieldnames=csv_fields, lineterminator='\n')
     csvwriter.writeheader()
 
-    env = gym_super_mario_bros.make(ENV_NAME, render_mode='human' if DISPLAY else 'rgb', apply_api_compatibility=True)
+    env = gym_super_mario_bros.make(ENV_NAME, render_mode='human' if DISPLAY else 'rgb_array', apply_api_compatibility=True)
     env = JoypadSpace(env, RIGHT_ONLY)
 
     env = apply_wrappers(env)
