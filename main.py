@@ -24,7 +24,7 @@ CKPT_SAVE_INTERVAL = 500  # episode interval for when to save trained model
 NUM_OF_EPISODES = 50_000  # number of episodes to run
 
 # Setup environment
-env = gym_super_mario_bros.make(ENV_NAME, render_mode='human' if DISPLAY else 'rgb', apply_api_compatibility=True)
+env = gym_super_mario_bros.make(ENV_NAME, render_mode='human' if DISPLAY else 'rgb_array', apply_api_compatibility=True)
 env = JoypadSpace(env, RIGHT_ONLY)
 env = apply_wrappers(env)
 

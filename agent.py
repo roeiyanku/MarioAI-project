@@ -31,12 +31,12 @@ class Agent:
         self.batch_size = batch_size
         self.sync_network_rate = sync_network_rate
 
-        # Set device to CPU
-        self.device = torch.device("cpu")
+        # Use CUDA when available, otherwise CPU
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
         # Networks
-        self.online_network = AgentNN(input_dims, num_actions).to(self.device)
-        self.target_network = AgentNN(input_dims, num_actions, freeze=True).to(self.device)
+        self.online_network = AgentNN(input_dims, num_actions, device=self.device)
+        self.target_network = AgentNN(input_dims, num_actions, freeze=True, device=self.device)
 
         # Optimizer and loss
         self.optimizer = torch.optim.Adam(self.online_network.parameters(), lr=self.lr)
@@ -61,10 +61,10 @@ class Agent:
     def store_in_memory(self, state, action, reward, next_state, done):
         self.replay_buffer.add(TensorDict({
             "state": torch.tensor(np.array(state), dtype=torch.float32),
-            "action": torch.tensor(action),
-            "reward": torch.tensor(reward),
+            "action": torch.tensor(action, dtype=torch.int64),
+            "reward": torch.tensor(reward, dtype=torch.float32),
             "next_state": torch.tensor(np.array(next_state), dtype=torch.float32),
-            "done": torch.tensor(done)
+            "done": torch.tensor(done, dtype=torch.bool)
         }, batch_size=[]))
 
     def sync_networks(self):
